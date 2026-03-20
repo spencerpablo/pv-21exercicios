@@ -1,0 +1,519 @@
+<style id="lead-modal-styles">
+    .lead-modal {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 18px;
+        background: rgba(17, 24, 39, 0.88);
+        backdrop-filter: blur(3px);
+        z-index: 10000;
+    }
+    .lead-modal.is-active {
+        display: flex;
+    }
+    .lead-modal__panel {
+        background: #111827;
+        border-radius: 20px;
+        border: 1px solid rgba(36, 208, 103, 0.18);
+        box-shadow: 0 35px 80px rgba(0, 0, 0, 0.45);
+        padding: clamp(24px, 4vw, 36px);
+        width: min(520px, 92vw);
+        position: relative;
+        overflow: hidden;
+    }
+    .lead-modal__panel::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(circle at top right, rgba(36, 208, 103, 0.18), transparent 55%);
+    }
+    .lead-modal__close {
+        position: absolute;
+        top: 16px;
+        right: 18px;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: none;
+        color: #E5E7EB;
+        background: rgba(255, 255, 255, 0.08);
+        font-size: 22px;
+        cursor: pointer;
+        transition: transform 0.2s ease, background 0.2s ease;
+        z-index: 2;
+    }
+    .lead-modal__close:hover {
+        transform: rotate(90deg);
+        background: rgba(255, 255, 255, 0.2);
+    }
+    .lead-modal__title {
+        font-family: "Figtree", sans-serif;
+        font-weight: 700;
+        font-size: clamp(24px, 3vw, 30px);
+        color: #5eead4;
+        margin-bottom: 10px;
+    }
+    .lead-modal__subtitle {
+        color: #D1D5DC;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 26px;
+    }
+    .lead-modal form {
+        display: grid;
+        gap: 18px;
+        position: relative;
+        z-index: 1;
+    }
+    .lead-modal label {
+        display: grid;
+        gap: 6px;
+        color: #E5E7EB;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    .lead-modal input[type="text"],
+    .lead-modal input[type="email"],
+    .lead-modal input[type="tel"] {
+        width: 100%;
+        border-radius: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: rgba(17, 24, 39, 0.9);
+        color: #F8FAFC;
+        padding: 13px 16px;
+        font-size: 15px;
+        transition: border 0.2s ease, box-shadow 0.2s ease;
+    }
+    .lead-modal input[type="text"]:focus,
+    .lead-modal input[type="email"]:focus,
+    .lead-modal input[type="tel"]:focus {
+        outline: none;
+        border-color: #24D067;
+        box-shadow: 0 0 0 3px rgba(36, 208, 103, 0.25);
+    }
+    .lead-modal__actions {
+        display: grid;
+        gap: 10px;
+        margin-top: 6px;
+    }
+    .lead-modal__actions button[type="submit"] {
+        border: none;
+        border-radius: 12px;
+        background-image: linear-gradient(90deg, #24D067, #15967B);
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 15px;
+        cursor: pointer;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        box-shadow: 0 10px 25px rgba(34, 197, 94, 0.4);
+    }
+    .lead-modal__actions button[type="submit"]:hover {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 16px 35px rgba(34, 197, 94, 0.45);
+    }
+    .lead-modal__actions button[type="submit"]:disabled {
+        opacity: 0.65;
+        cursor: wait;
+    }
+    .lead-modal__footnote {
+        text-align: center;
+        font-size: 12px;
+        color: #94A3B8;
+    }
+    .lead-modal__footnote strong {
+        color: #E2E8F0;
+    }
+    .lead-modal__feedback {
+        text-align: center;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    .lead-modal__feedback--info {
+        color: #fde68a;
+    }
+    .lead-modal__feedback--success {
+        color: #4ade80;
+    }
+    .lead-modal__feedback--warn {
+        color: #facc15;
+    }
+    @media (max-width: 640px) {
+        .lead-modal__panel {
+            padding: 24px;
+            border-radius: 16px;
+        }
+    }
+</style>
+<div class="lead-modal" id="captureModal" aria-hidden="true" data-webhook="https://auto.spencerpablo.com.br/webhook/entrada-na-base" data-tag="oferta_especial_lancamento" data-product-name="Curso Destrave Seus Dedos" data-product-value="97.00">
+    <div class="lead-modal__panel" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+        <button class="lead-modal__close" type="button" data-modal-close aria-label="Fechar pop-up">×</button>
+        <h2 class="lead-modal__title" id="lead-modal-title">Garanta sua vaga agora</h2>
+        <p class="lead-modal__subtitle">Preencha seus dados para receber o link direto do checkout e continuar o processo sem perder nenhuma informação importante.</p>
+        <form id="lead-modal-form">
+            <label>
+                Nome completo
+                <input type="text" id="form-field-name" name="NOME" placeholder="Seu nome" autocomplete="name" required>
+            </label>
+            <label>
+                E-mail
+                <input type="email" id="form-field-em" name="E-MAIL" placeholder="voce@exemplo.com" autocomplete="email" required>
+            </label>
+            <label>
+                WhatsApp / Telefone
+                <input type="tel" id="form-field-ph" name="WHATSAPP" placeholder="(00) 00000-0000" autocomplete="tel" required >
+            </label>
+            <input type="hidden" name="TAG" id="form-field-tag" value="21EXERC">
+            <input type="hidden" name="utms">
+            <input type="hidden" name="utm_source">
+            <input type="hidden" name="utm_medium">
+            <input type="hidden" name="utm_campaign">
+            <input type="hidden" name="utm_term">
+            <input type="hidden" name="utm_content">
+            <input type="hidden" name="utm_id">
+            <input type="hidden" name="utm_source_platform">
+            <input type="hidden" name="utm_creative_format">
+            <input type="hidden" name="utm_marketing_tactic">
+            <input type="hidden" name="gclid">
+            <input type="hidden" name="fbclid">
+            <input type="hidden" name="msclkid">
+            <input type="hidden" name="source">
+            <input type="hidden" name="productName">
+            <input type="hidden" name="ticket_produto" value="47">
+            <input type="hidden" name="checkoutUrl">
+            <p class="lead-modal__feedback" id="lead-modal-feedback" hidden></p>
+            <div class="lead-modal__actions">
+                <button type="submit">QUERO GARANTIR AGORA</button>
+                <p class="lead-modal__footnote">Seus dados estão seguros. Não enviamos spam.</p>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+(function () {
+    const checkoutBaseUrl = 'https://go.spencerpablo.com.br/pay/21-exercicios-black-friday';
+    const trackedUtms = [
+        'utm_source',
+        'utm_medium',
+        'utm_campaign',
+        'utm_term',
+        'utm_content',
+        'utm_id',
+        'utm_source_platform',
+        'utm_creative_format',
+        'utm_marketing_tactic',
+        'gclid',
+        'fbclid',
+        'msclkid',
+        'source'
+    ];
+    const utmFieldMap = {
+        utm_source: 'utmSource',
+        utm_medium: 'utmMedium',
+        utm_campaign: 'utmCampaign',
+        utm_term: 'utmTerm',
+        utm_content: 'utmContent',
+        utm_id: 'utmId',
+        utm_source_platform: 'utmSourcePlatform',
+        utm_creative_format: 'utmCreativeFormat',
+        utm_marketing_tactic: 'utmMarketingTactic',
+        gclid: 'gclid',
+        fbclid: 'fbclid',
+        msclkid: 'msclkid',
+        source: 'source'
+    };
+
+    const mailerLiteConfig = {
+        endpoint: 'https://connect.mailerlite.com/api/subscribers',
+        apiKey: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiNjMzZWNjYjQ2MzI2YzY3N2I1MjNlNjEzZTMyODA3YTAyODgxMWIwMzg3NDc3MDk3NWUzNzFkZDgwNmIwZDNlODY3MTUwNjk0NWRjNTM2OTMiLCJpYXQiOjE3MzkwMjAzOTkuNjE0MTQ0LCJuYmYiOjE3MzkwMjAzOTkuNjE0MTQ2LCJleHAiOjQ4OTQ2OTM5OTkuNjEwNDk2LCJzdWIiOiIxMzMzOTkxIiwic2NvcGVzIjpbXX0.oYd7yco2MtatixYT9uY1Z-KonoDFH5jGT7VKoiov3Yd4OC8z5B1iQsHt6uss9IMSwAWfpiTdWKFfhYEhP3agBf320Kbh4VkRCCab6mBvV3Fi7w9bBerrSWLfbV77lODXocpaCV46vsDmugaz_QrAX5cikVmsnnZj8YYEVsVzR7e4FDC0BbiNeGhDLiNF53bE3vVnBDGqUHzAwkP1gBeoGAfyJgn8vUjdQGK-vBZQHRz9T5qDDX0KughAmCE-Y0MnW18Hrkx1AI3lcdIE-fPr26m27b64IolBZLXFxskOfDabdHw43O7v2yrZjsCKaQlfB78SkgG-0-VjuawCRwV4mGxW0FdgxtxubCmbzLykV_bWeorrh37Jse266YUSbpmcAOlUp4AwqMsGB6ZXk5NjDFxNWPMJ639mo1sAWp2PVclv6GxAodo9MVKQto7t1y5zB4IVsD2KmAP9z_854JQlxxbKPH8tGE_7r_a3_lN7S_4aLumAuvN3kEcAEAFXhMcvsC5X81RvCRY7rhzqQkFFNw0QYfylm3TsxFZhHPjwYAjrhj1cjYIfII6MMH6M1bn13Ldm7TGMtFiRFHeT0Ib8J55L7ZuhMtjJOQkINoQ9O9oS0KQcnATk2j6WE8vz3AH3Yf_jVUxXENg_vNt22ngBUA5EGYIxwDF_HKbIoTD8TTI',
+        groupId: '159273220820698440'
+    };
+
+    function initLeadModal() {
+        const modal = document.getElementById('captureModal');
+        const form = document.getElementById('lead-modal-form');
+        const feedback = document.getElementById('lead-modal-feedback');
+        if (!modal || !form || !feedback) {
+            return;
+        }
+        if (modal.dataset.initialized === 'true') {
+            return;
+        }
+        modal.dataset.initialized = 'true';
+
+        const triggers = document.querySelectorAll('.lead-trigger');
+        const closeControls = modal.querySelectorAll('[data-modal-close]');
+        const webhookUrl = modal.dataset.webhook || '';
+        const tagValue = modal.dataset.tag || '';
+        const productNameValue = modal.dataset.productName || '';
+        const productValueValue = modal.dataset.productValue || '';
+
+        let activeCheckoutUrl = checkoutBaseUrl;
+        let previousOverflow = '';
+        let previousScroll = 0;
+        let latestUtmData = {};
+
+        const hiddenFields = {
+            tag: form.querySelector('input[name="tag"]'),
+            utms: form.querySelector('input[name="utms"]'),
+            utmSource: form.querySelector('input[name="utm_source"]'),
+            utmMedium: form.querySelector('input[name="utm_medium"]'),
+            utmCampaign: form.querySelector('input[name="utm_campaign"]'),
+            utmTerm: form.querySelector('input[name="utm_term"]'),
+            utmContent: form.querySelector('input[name="utm_content"]'),
+            utmId: form.querySelector('input[name="utm_id"]'),
+            utmSourcePlatform: form.querySelector('input[name="utm_source_platform"]'),
+            utmCreativeFormat: form.querySelector('input[name="utm_creative_format"]'),
+            utmMarketingTactic: form.querySelector('input[name="utm_marketing_tactic"]'),
+            gclid: form.querySelector('input[name="gclid"]'),
+            fbclid: form.querySelector('input[name="fbclid"]'),
+            msclkid: form.querySelector('input[name="msclkid"]'),
+            source: form.querySelector('input[name="source"]'),
+            productName: form.querySelector('input[name="productName"]'),
+            productValue: form.querySelector('input[name="productValue"]'),
+            checkoutUrl: form.querySelector('input[name="checkoutUrl"]')
+        };
+
+        function collectUtms() {
+            const params = new URLSearchParams(window.location.search);
+            const utmData = {};
+            trackedUtms.forEach((key) => {
+                const value = params.get(key);
+                if (value) {
+                    utmData[key] = value;
+                }
+            });
+            return utmData;
+        }
+
+        function fillHiddenFields(checkoutUrl) {
+            if (hiddenFields.tag) hiddenFields.tag.value = tagValue;
+            const utmData = collectUtms();
+            latestUtmData = utmData;
+            if (hiddenFields.utms) {
+                hiddenFields.utms.value = Object.keys(utmData).length ? JSON.stringify(utmData) : 'fonte_direta';
+            }
+            trackedUtms.forEach((utmKey) => {
+                const fieldKey = utmFieldMap[utmKey];
+                const field = hiddenFields[fieldKey];
+                if (field) {
+                    field.value = utmData[utmKey] || '';
+                }
+            });
+            if (hiddenFields.productName) hiddenFields.productName.value = productNameValue;
+            if (hiddenFields.productValue) hiddenFields.productValue.value = productValueValue;
+            if (hiddenFields.checkoutUrl) hiddenFields.checkoutUrl.value = checkoutUrl || checkoutBaseUrl;
+        }
+
+        function lockScroll() {
+            previousOverflow = document.body.style.overflow;
+            previousScroll = window.scrollY || window.pageYOffset || 0;
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${previousScroll}px`;
+            document.body.style.width = '100%';
+        }
+
+        function unlockScroll() {
+            document.body.style.overflow = previousOverflow || '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, previousScroll || 0);
+        }
+
+        function showModal(evt) {
+            evt.preventDefault();
+            const trigger = evt.currentTarget;
+            const triggerCheckout = trigger && trigger.dataset ? trigger.dataset.checkout : '';
+            activeCheckoutUrl = triggerCheckout && triggerCheckout.trim() ? triggerCheckout : checkoutBaseUrl;
+            fillHiddenFields(activeCheckoutUrl);
+            modal.classList.add('is-active');
+            modal.setAttribute('aria-hidden', 'false');
+            lockScroll();
+            const firstField = form.querySelector('input:not([type="hidden"])');
+            if (firstField) {
+                setTimeout(() => firstField.focus(), 80);
+            }
+        }
+
+        function hideModal() {
+            modal.classList.remove('is-active');
+            modal.setAttribute('aria-hidden', 'true');
+            unlockScroll();
+            feedback.hidden = true;
+            feedback.textContent = '';
+            feedback.className = 'lead-modal__feedback';
+            const submitButton = form.querySelector('button[type="submit"]');
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.textContent = 'QUERO GARANTIR AGORA';
+            }
+        }
+
+        function handleOverlayClick(evt) {
+            if (evt.target === modal) {
+                hideModal();
+            }
+        }
+
+        function handleKeydown(evt) {
+            if (evt.key === 'Escape' && modal.classList.contains('is-active')) {
+                hideModal();
+            }
+        }
+
+        function buildRedirectUrl() {
+            const baseUrlString = activeCheckoutUrl || checkoutBaseUrl;
+            let url;
+            try {
+                url = new URL(baseUrlString);
+            } catch (error) {
+                console.warn('URL de checkout inválida, usando fallback.', error);
+                url = new URL(checkoutBaseUrl);
+            }
+            const params = new URLSearchParams(url.search);
+            trackedUtms.forEach((utmKey) => {
+                const fieldKey = utmFieldMap[utmKey];
+                const field = hiddenFields[fieldKey];
+                const value = latestUtmData[utmKey] || (field ? field.value : '');
+                if (value) {
+                    params.set(utmKey, value);
+                } else {
+                    params.delete(utmKey);
+                }
+            });
+            url.search = params.toString();
+            return url.toString();
+        }
+
+        async function sendToMailerLite(payload) {
+            const { apiKey, endpoint, groupId } = mailerLiteConfig;
+            const email = payload['E-MAIL'] || payload.email;
+            if (!apiKey || !email || !endpoint) {
+                return;
+            }
+            const subscriber = {
+                email,
+                status: 'active'
+            };
+            if (groupId) {
+                subscriber.groups = [groupId];
+            }
+            const fields = {};
+            const nameValue = payload.NOME || payload.name;
+            const phoneValue = payload.WHATSAPP || payload.phone;
+            if (nameValue) {
+                fields.name = nameValue;
+            }
+            if (phoneValue) {
+                fields.phone = phoneValue;
+            }
+            if (Object.keys(fields).length) {
+                subscriber.fields = fields;
+            }
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json',
+                        Authorization: `Bearer ${apiKey}`
+                    },
+                    body: JSON.stringify(subscriber)
+                });
+                if (!response.ok && response.status !== 409) {
+                    const details = await response.text().catch(() => '');
+                    console.warn('MailerLite: falha ao cadastrar lead', response.status, details);
+                }
+            } catch (error) {
+                console.warn('MailerLite: erro de rede', error);
+            }
+        }
+
+        async function submitForm(evt) {
+            evt.preventDefault();
+            const submitButton = form.querySelector('button[type="submit"]');
+            if (!submitButton) {
+                return;
+            }
+            submitButton.disabled = true;
+            submitButton.textContent = 'Enviando...';
+            feedback.hidden = false;
+            feedback.textContent = 'Processando seus dados...';
+            feedback.className = 'lead-modal__feedback';
+            feedback.classList.add('lead-modal__feedback--info');
+
+            fillHiddenFields(activeCheckoutUrl);
+
+            const formData = new FormData(form);
+            const payload = {};
+            formData.forEach((value, key) => {
+                payload[key] = value;
+            });
+            payload.page = window.location.href;
+            payload.timestamp = new Date().toISOString();
+            payload.checkout_target = activeCheckoutUrl;
+
+            const urlEncoded = new URLSearchParams();
+            Object.keys(payload).forEach((key) => {
+                const value = payload[key];
+                // URLSearchParams ignora valores undefined/null; garante string
+                urlEncoded.append(key, value != null ? String(value) : '');
+            });
+
+            if (webhookUrl) {
+                try {
+                    const response = await fetch(webhookUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                        },
+                        body: urlEncoded.toString()
+                    });
+                    if (response.ok) {
+                        feedback.textContent = 'Tudo certo! Redirecionando...';
+                        feedback.classList.remove('lead-modal__feedback--info');
+                        feedback.classList.add('lead-modal__feedback--success');
+                    } else {
+                        feedback.textContent = 'Não conseguimos enviar a automação, mas vamos seguir para o checkout.';
+                        feedback.classList.remove('lead-modal__feedback--info');
+                        feedback.classList.add('lead-modal__feedback--warn');
+                    }
+                } catch (error) {
+                    console.warn('falha ao enviar, redirecionando mesmo assim.', error);
+                    feedback.textContent = 'Redirecionando...';
+                    feedback.classList.remove('lead-modal__feedback--info');
+                    feedback.classList.add('lead-modal__feedback--warn');
+                }
+            }
+
+            await sendToMailerLite(payload);
+
+            setTimeout(() => {
+                const redirectUrl = buildRedirectUrl();
+                window.location.href = redirectUrl;
+            }, 400);
+        }
+
+        triggers.forEach((trigger) => {
+            trigger.addEventListener('click', showModal);
+        });
+        closeControls.forEach((btn) => btn.addEventListener('click', hideModal));
+        modal.addEventListener('click', handleOverlayClick);
+        form.addEventListener('submit', submitForm);
+        document.addEventListener('keydown', handleKeydown);
+
+        fillHiddenFields(activeCheckoutUrl);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initLeadModal, { once: true });
+    } else {
+        initLeadModal();
+    }
+})();
+</script>
